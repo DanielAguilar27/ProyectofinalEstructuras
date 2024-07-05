@@ -4,7 +4,7 @@ El proyecto trata de un código de gestión de proyectos de desarrollo de softwa
 
 ## Authors
 
-- [@Nicolas Linares 2230027](https://www.github.com/octokatherine)
-- [@Daniel Aguilar Navas - 2230034](https://www.github.com/octokatherine)
-- [@Iván Camargo López - 2230033](https://www.github.com/octokatherine)
+- [@Nicolas Linares 2230027](https://www.github.com/nicolaslinaresrojas)
+- [@Daniel Aguilar Navas - 2230034](https://www.github.com/DanielAguilar27)
+- [@Iván Camargo López - 2230033](https://www.github.com/popcorner893)
 - [@Gabriel Garcia Jimenez - 2230083](https://www.github.com/octokatherine)
