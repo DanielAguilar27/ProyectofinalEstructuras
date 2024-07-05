@@ -1,8 +1,6 @@
 # Proyecto Final Estructuras
 
-El proyecto trata de un código de gestión de proyectos de desarrollo de software, donde se tendrá una lista de usuarios y una lista de proyectos, en la lista de usuarios se tendrán los atributos nombre, contraseña, correo, proyectos asociados mientras que en la lista de proyectos se tendrán los atributos fecha de inicio, fecha límite, usuario, descripción.
-
-Se tendrán los métodos de indicar si está vacía la lista, contar elementos lista, imprimir elementos, agregar el elemento al inicio de la lista y la funcion del método 6 será cambiar la contraseña del usuario. Debemos tener en cuenta que estos métodos serán útiles tanto en la lista de usuarios como en la lista de proyectos.
+El proyecto trata de un código de gestión de proyectos de desarrollo de software, donde se hara uso de los grafos, el funcionamiento de este sera que cada nodo va a ser un usuario, donde tendra una lista con el nombre, contraseaña, email, codigo y proyectos. La clase Centro de datos al crear el grafo escanea los proyectos y va a guardar el grafo con todos los usuarios y las conexiones entre ellos. Las conexiones se daram en base a los autores, si 2 autores trabajan en un mismo proyecto se realiza una conexion. El grafo es no dirigido
 
 ## Authors
 
