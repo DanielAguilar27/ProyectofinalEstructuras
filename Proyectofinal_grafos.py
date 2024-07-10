@@ -133,7 +133,8 @@ class GrafoUsuarios:
             for proyecto in data["data"].proyectosAsociados.getList():
                 if len(proyecto.autores) > 1:       #Si algún proyecto de la lista tiene más de un autor, entonces hay que crear la arista
                     for i in range(1, len(proyecto.autores)):
-                        self.grafo.add_edge(data["data"].name, proyecto.autores[i])
+                        if data["data"].name != proyecto.autores[i] and self.grafo.has_node(proyecto.autores[i]):
+                            self.grafo.add_edge(data["data"].name, proyecto.autores[i])
 
 
 #Clase principal
@@ -217,9 +218,25 @@ class Sistema:
 
             if opcion == "1":
 
+                colores = ["gray","limegreen","forestgreen"]
+                node_colors = {}
+
+                
                 if len(list(self.centroDeDatos.grafo.nodes)) > 0:       #Si hay al menos un nodo, dibuja el grafo 
-                    """AQUÍ HAY QUE CAMBIAR LA FORMA DEL DIBUJO PARA TENER EN CUENTA SI ESTÁ ACTIVO O NO"""
-                    nx.draw(self.centroDeDatos.grafo, with_labels=True) 
+                    for nodo, datos in self.centroDeDatos.grafo.nodes(data=True):
+                        contadorProyectos = datos["data"].proyectosAsociados.ContarElementos()
+                        if  contadorProyectos == 0:
+                            color = colores[0]
+                        elif 0< contadorProyectos < 3:
+                            color = colores[1]
+                        else:
+                            color = colores[2]
+
+                        node_colors[datos["data"].name] = color
+                    node_color_list = [node_colors[node] if node in node_colors else 'blue' for node in self.centroDeDatos.grafo.nodes()]
+
+                        
+                    nx.draw(self.centroDeDatos.grafo, with_labels=True, node_color = node_color_list) 
                     plt.show()
                     
 
@@ -251,6 +268,16 @@ class Sistema:
 
                 self.centroDeDatos.grafo.add_node(nombre, data = User(nombre, password, email, ListaProyectos(), codigo))   #El label del nodo es el nombre, en data se guarda el objeto
                 self.centroDeDatos.actualizarConecciones()  #Actualiza las aristas
+
+
+                #Verifica cada nodo del grafo, luego cada proyecto del nodo, luego cada autor del proyecto para ver si ya está en el grafo. Si el autor sí está en el grafo pero no tiene el proyecto, le añade el proyecto.
+                """for nodo, datos in self.centroDeDatos.grafo.nodes(data=True):
+                    for proyecto in self.centroDeDatos.grafo.nodes[datos]["data"].proyectosAsociados.getList():
+                        for autor in proyecto.autores:
+                            if self.centroDeDatos.grafo.has_node(autor) and proyecto not in self.centroDeDatos.grafo.nodes[datos]["data"].proyectosAsociados.getList():
+                                self.centroDeDatos.grafo.nodes[autor]["data"].proyectosAsociados.AgregarInicio(proyecto)"""
+
+
                 print("Agregado correctamente.")   
 
             elif opcion == "3":
@@ -317,7 +344,6 @@ class Sistema:
                     node_colors = {}
                     for proyecto in self.centroDeDatos.grafo.nodes[usuario]["data"].proyectosAsociados.getList():
                         dias = (proyecto.Deadline - proyecto.StartDate).days
-                        print(dias)
                         if dias < 2:
                             color = colores[0]
                         elif 2 <= dias < 10:
@@ -340,6 +366,11 @@ class Sistema:
                     autores = input("Autores (separados por coma): ").split(",")        #Recordar que los autores los va a guardar en una lista, por eso el split
                     descripcion = input("Descripción: ")
                     self.centroDeDatos.grafo.nodes[usuario]["data"].proyectosAsociados.AgregarInicio(Proyecto(titulo, fechaInicio, fechaFin, autores, descripcion)) #Añade el proyecto al inicio de la lista
+                    
+                    for autor in autores:
+                        if self.centroDeDatos.grafo.has_node(autor):
+                            self.centroDeDatos.grafo.nodes[autor]["data"].proyectosAsociados.AgregarInicio(Proyecto(titulo, fechaInicio, fechaFin, autores, descripcion))
+
                     print("Proyecto añadido satisfactoriamente. ")        
 
             elif opcion == "3":
